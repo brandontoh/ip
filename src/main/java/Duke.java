@@ -3,8 +3,8 @@ import java.util.Arrays;
 
 public class Duke {
     public static void main(String[] args) {
-        String[] commands = new String[100];
-        int commandCount = 0;
+        Task[] tasks = new Task[100];
+        int taskCount = 0;
 
         String logo = " ____        _        \n"
                 + "|  _ \\ _   _| | _____ \n"
@@ -15,10 +15,10 @@ public class Duke {
         System.out.println(logo);
         System.out.println("Hello! I'm Duke");
         System.out.println("What can I do for you?");
-        dottedLine();
 
         while (true) {
-            System.out.println("Please enter a command:");
+            dottedLine();
+            System.out.println("Please enter a task:");
 
             Scanner input = new Scanner(System.in);
             String line = input.nextLine();
@@ -26,15 +26,15 @@ public class Duke {
             if (line.toLowerCase().equals("bye")) {
                 System.out.println("Bye. Hope to see you again soon!");
                 break;
-            } else if (line.toLowerCase().equals("list")){
-                listCommands(Arrays.copyOf(commands, commandCount));
+            } else if (line.toLowerCase().equals("list")) {
+                listTasks(Arrays.copyOf(tasks, taskCount));
+            } else if (line.toLowerCase().contains("done")) {
+                tasks[Integer.parseInt(line.split(" ")[1]) - 1].markAsCompleted();
             } else {
-                System.out.println(line);
-                storeCommands(commands, line, commandCount);
-                commandCount++;
+                System.out.println("Added " + line + " to list");
+                tasks[taskCount]= new Task(line);
+                taskCount++;
             }
-
-            dottedLine();
         }
     }
 
@@ -42,13 +42,13 @@ public class Duke {
         System.out.println("____________________________________________________________");
     }
 
-    public static void storeCommands(String[] commands, String command, int commandCount) {
-        commands[commandCount] = commandCount + 1 + ". " + command;
-    }
+    public static void listTasks(Task[] tasks) {
+        int count = 1;
 
-    public static void listCommands(String[] commands) {
-        for (String command : commands) {
-            System.out.println(command);
+        System.out.println("Here are the tasks in your list");
+        for (Task task : tasks) {
+            System.out.println(count + ". " + "[" + task.getStatusIcon() + "] " + task.description);
+            count++;
         }
     }
 }
