@@ -11,13 +11,13 @@ public class Duke {
                 + "| | | | | | | |/ / _ \\\n"
                 + "| |_| | |_| |   <  __/\n"
                 + "|____/ \\__,_|_|\\_\\___|\n";
-        dottedLine();
+        System.out.println("____________________________________________________________");
         System.out.println(logo);
         System.out.println("Hello! I'm Duke");
         System.out.println("What can I do for you?");
 
         while (true) {
-            dottedLine();
+            System.out.println("____________________________________________________________");
             System.out.println("Please enter a task:");
 
             Scanner input = new Scanner(System.in);
@@ -36,10 +36,6 @@ public class Duke {
                 taskCount++;
             }
         }
-    }
-
-    public static void dottedLine() {
-        System.out.println("____________________________________________________________");
     }
 
     public static void listTasks(Task[] tasks) {
