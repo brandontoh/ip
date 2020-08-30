@@ -17,13 +17,27 @@ public class Task {
 
     public void markAsCompleted() {
         if (!isDone) {
-            System.out.println("Nice! I've marked this task as done:");
-            System.out.println("[" + getStatusIcon() + "] " + description);
             this.isDone = true;
+            System.out.println("Nice! I've marked this task as done:");
         } else {
             System.out.println("What!?!?! I've already marked this task as done:");
-            System.out.println("[" + getStatusIcon() + "] " + description);
         }
+        System.out.println("[" + getTypeOfTask() + "][" + getStatusIcon() + "] " + getFormattedDescription());
+    }
 
+    public String getTypeOfTask() {
+        return "NIL";
+    }
+
+    public String getFormattedDescription() {
+        if (description.contains("/")) {
+            String[] slicedDescription = description.split("/", 2);
+            String what = slicedDescription[0];
+            String when = slicedDescription[1].trim();
+            String[] slicedWhen = when.split(" ", 2);
+            when = slicedWhen[0] + ": " + slicedWhen[1];
+            return what + "(" + when + ")";
+        }
+        return this.description;
     }
 }
