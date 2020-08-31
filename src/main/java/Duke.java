@@ -1,106 +1,37 @@
 import java.util.Scanner;
 import java.util.Arrays;
-import java.util.ArrayList;
 
 public class Duke {
-    private static final Task[] tasks = new Task[100];
-    private static int taskCount = 0;
     private static String command;
     private static String description;
-    private static final  ArrayList<String> twoPartCommands = new ArrayList<String>(Arrays.asList("done", "todo", "deadline", "event"));
-    private static final ArrayList<String> onePartCommands = new ArrayList<String>(Arrays.asList("list", "bye"));
+    private static Task task;
+    private static boolean isTask;
+    private static boolean isCommand;
+    private static final TaskList list = new TaskList();
+
 
     public static void main(String[] args) {
 
         welcomeMessage();
 
         while (true) {
-            System.out.println("____________________________________________________________");
-            System.out.println("Please enter a task:");
-
-            Scanner input = new Scanner(System.in);
-            String userInput = input.nextLine();
-
+            String userInput = askForInput();
+            checkTypeOfInstruction(userInput);
             splitInput(userInput);
 
-            switch (command) {
-            case "bye":
-                exitMessage();
-                break;
-            case "list":
-                listTasks(Arrays.copyOf(tasks, taskCount));
-                break;
-            case "done":
-                tasks[Integer.parseInt(description) - 1].markAsCompleted();
-                break;
-            case "todo":
-                addTodo(description);
-                break;
-            case "deadline":
-                addDeadline(description);
-                break;
-            case "event":
-                addEvent(description);
-                break;
-            default:
-                addDefault(description);
-                break;
+            if (isCommand) {
+                executeCommand();
+            } else if (isTask) {
+                createTask();
+                list.addToList(task);
             }
 
             if (command.equals("list") || command.equals("done")) {
                 continue;
             }
-            listSingleTask(taskCount - 1);
+            printSingleTask(list.getTaskCount()-1);
             printNoOfTasks();
         }
-    }
-
-    public static void listTasks(Task[] tasks) {
-        int count = 1;
-
-        System.out.println("Here are the tasks in your list");
-        for (Task task : tasks) {
-            System.out.println(count + ". [" + task.getTypeOfTask() + "][" + task.getStatusIcon() + "] " + task.getFormattedDescription());
-            count++;
-        }
-    }
-
-    public static void exitMessage() {
-        System.out.println("Bye. Hope to see you again soon!");
-        System.exit(0);
-    }
-
-    public static void addTodo(String description) {
-        tasks[taskCount] = new ToDo(description);
-        taskCount++;
-        System.out.println("Got it. I've added this task:");
-    }
-
-    public static void addDeadline(String description) {
-        tasks[taskCount] = new Deadline(description);
-        taskCount++;
-        System.out.println("Got it. I've added this task:");
-    }
-
-    public static void addEvent(String description) {
-        tasks[taskCount] = new Event(description);
-        taskCount++;
-        System.out.println("Got it. I've added this task:");
-    }
-
-    public static void addDefault(String description) {
-        tasks[taskCount] = new Task(description);
-        taskCount++;
-        System.out.println("Added " + description + " to list");
-    }
-
-    public static void listSingleTask(int index) {
-        Task task = tasks[index];
-        System.out.println(index + 1 + ". [" + task.getTypeOfTask() + "][" + task.getStatusIcon() + "] " + task.getFormattedDescription());
-    }
-
-    public static void printNoOfTasks() {
-        System.out.println("Now you have " + taskCount + " tasks in the list.");
     }
 
     public static void welcomeMessage() {
@@ -115,17 +46,106 @@ public class Duke {
         System.out.println("What can I do for you?");
     }
 
+    private static String askForInput() {
+        System.out.println("____________________________________________________________");
+        System.out.println("Please enter a task:");
+
+        Scanner input = new Scanner(System.in);
+        String userInput = input.nextLine();
+        return userInput;
+    }
+
+    public static void checkTypeOfInstruction(String input) {
+        isCommand = false;
+        isTask = false;
+        String[] slicedInput = input.split(" ", 2);
+        switch(slicedInput[0]) {
+            case "list":
+            case "bye":
+            case "done":
+                isCommand = true;
+                break;
+            default:
+                isTask = true;
+                break;
+        }
+    }
+
     public static void splitInput(String input) {
         String[] slicedInput = input.split(" ", 2);
-        if (twoPartCommands.contains(slicedInput[0]) && input.contains(" ")) {
+        switch(slicedInput[0]) {
+        case "list":
+        case "bye":
+            command = slicedInput[0];
+            description = "";
+            break;
+        case "done":
+        case "todo":
+        case "deadline":
+        case "event":
             command = slicedInput[0];
             description = slicedInput[1];
-        } else if (onePartCommands.contains(input)) {
-            command = input;
-            description = "";
-        } else {
+            break;
+        default:
             command = "";
-            description = input;
+            description = slicedInput[0];
+            break;
+        }
+    }
+
+    public static void executeCommand() {
+        switch (command) {
+        case "bye":
+            exitMessage();
+            break;
+        case "list":
+            printList();
+            break;
+        case "done":
+            list.markAsCompleted(Integer.parseInt(description)-1);
+            break;
+        default:
+            System.exit(1);
+        }
+    }
+
+    public static void createTask() {
+        switch (command) {
+        case "todo":
+            task = new ToDo(description);
+            break;
+        case "deadline":
+            task = new Deadline(description);
+            break;
+        case "event":
+            task = new Event(description);
+            break;
+        default:
+            task = new Task(description);
+            break;
+        }
+    }
+
+    public static void printSingleTask(int index) {
+        String typeOfTask = list.getTask(index).getTypeOfTask();
+        String statusIcon =  list.getTask(index).getStatusIcon();
+        String description = list.getTask(index).getFormattedDescription();
+        System.out.println(index + 1 + ". [" + typeOfTask + "][" + statusIcon + "] " + description);
+    }
+
+    public static void printNoOfTasks() {
+        System.out.println("Now you have " + list.getTaskCount() + " tasks in the list.");
+    }
+
+    public static void exitMessage() {
+        System.out.println("Bye. Hope to see you again soon!");
+        System.exit(0);
+    }
+
+    public static void printList() {
+        System.out.println("Here are the tasks in your list");
+        for (int i = 0; i < list.getTaskCount(); i++) {
+            printSingleTask(i);
         }
     }
 }

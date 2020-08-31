@@ -1,6 +1,8 @@
 public class Task {
     protected String description;
     protected boolean isDone;
+    protected static final Task[] tasks = new Task[100];
+    protected static int taskCount = 0;
 
     public Task(String description) {
         this.description = description;
@@ -13,16 +15,6 @@ public class Task {
         } else {
             return "\u2718";
         }
-    }
-
-    public void markAsCompleted() {
-        if (!isDone) {
-            this.isDone = true;
-            System.out.println("Nice! I've marked this task as done:");
-        } else {
-            System.out.println("What!?!?! I've already marked this task as done:");
-        }
-        System.out.println("[" + getTypeOfTask() + "][" + getStatusIcon() + "] " + getFormattedDescription());
     }
 
     public String getTypeOfTask() {
@@ -39,5 +31,15 @@ public class Task {
             return what + "(" + when + ")";
         }
         return this.description;
+    }
+
+    public void markAsCompleted() {
+        if (!isDone) {
+            this.isDone = true;
+            System.out.println("Nice! I've marked this task as done:");
+        } else {
+            System.out.println("What!?!?! I've already marked this task as done:");
+        }
+        System.out.println("[" + getTypeOfTask() + "][" + getStatusIcon() + "] " + getFormattedDescription());
     }
 }
