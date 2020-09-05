@@ -1,5 +1,4 @@
 import java.util.Scanner;
-import java.util.Arrays;
 
 public class Duke {
     private static String command;
@@ -88,7 +87,7 @@ public class Duke {
             break;
         default:
             command = "";
-            description = slicedInput[0];
+            description = input;
             break;
         }
     }
