@@ -1,8 +1,6 @@
 public class Task {
     protected String description;
     protected boolean isDone;
-    protected static final Task[] tasks = new Task[100];
-    protected static int taskCount = 0;
 
     public Task(String description) {
         this.description = description;
@@ -21,7 +19,7 @@ public class Task {
         return "NIL";
     }
 
-    public String getFormattedDescription() {
+    public String getFormattedDescription(){
         if (description.contains("/")) {
             String[] slicedDescription = description.split("/", 2);
             String what = slicedDescription[0];
