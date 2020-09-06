@@ -1,49 +1,46 @@
 import java.util.Scanner;
 
 public class Duke {
-    private static String command;
+    private static Command instruction;
     private static String description;
-    private static Task task;
-    private static boolean isTask;
-    private static boolean isCommand;
-    private static final TaskList list = new TaskList();
+    private static final TaskManager taskManager = new TaskManager();
 
 
     public static void main(String[] args) {
 
-        welcomeMessage();
+        Print.printWelcomeMessage();
 
         while (true) {
             String userInput = askForInput();
-            checkTypeOfInstruction(userInput);
-            splitInput(userInput);
-
-            if (isCommand) {
-                executeCommand();
-            } else if (isTask) {
-                createTask();
-                list.addToList(task);
-            }
-
-            if (command.equals("list") || command.equals("done")) {
+            try {
+                checkTypeOfInstruction(userInput);
+                splitInput(userInput);
+            } catch (DukeException e) {
+                ErrorMessage.checkTypeOutOfBoundsException();
                 continue;
             }
-            printSingleTask(list.getTaskCount()-1);
-            printNoOfTasks();
+            try {
+                splitInput(userInput);
+            } catch (DukeException e) {
+                ErrorMessage.splitInputOutOfBoundsException();
+                continue;
+            }
+
+            if (instruction.isCommand()) {
+                executeCommand();
+            } else if (instruction.isTask()) {
+                Task task = taskManager.createTask(instruction, description);
+                taskManager.addToList(task);
+            }
+
+            if (instruction == Command.LIST || instruction == Command.DONE) {
+                continue;
+            }
+            Print.printSingleTask(taskManager, TaskManager.getTaskCount()-1);
+            Print.printNoOfTasks(taskManager);
         }
     }
 
-    public static void welcomeMessage() {
-        String logo = " ____        _        \n"
-                + "|  _ \\ _   _| | _____ \n"
-                + "| | | | | | | |/ / _ \\\n"
-                + "| |_| | |_| |   <  __/\n"
-                + "|____/ \\__,_|_|\\_\\___|\n";
-        System.out.println("____________________________________________________________");
-        System.out.println(logo);
-        System.out.println("Hello! I'm Duke");
-        System.out.println("What can I do for you?");
-    }
 
     private static String askForInput() {
         System.out.println("____________________________________________________________");
@@ -54,97 +51,69 @@ public class Duke {
         return userInput;
     }
 
-    public static void checkTypeOfInstruction(String input) {
-        isCommand = false;
-        isTask = false;
+    public static void checkTypeOfInstruction(String input) throws DukeException {
         String[] slicedInput = input.split(" ", 2);
+
         switch(slicedInput[0]) {
-            case "list":
-            case "bye":
-            case "done":
-                isCommand = true;
-                break;
-            default:
-                isTask = true;
-                break;
+        case "list":
+            instruction = Command.LIST;
+            break;
+        case "bye":
+            instruction = Command.BYE;
+            break;
+        case "done":
+            instruction = Command.DONE;
+            break;
+        case "todo":
+            instruction = Command.TODO;
+            break;
+        case "deadline":
+            instruction = Command.DEADLINE;
+            break;
+        case "event":
+            instruction = Command.EVENT;
+            break;
+        default:
+            throw new DukeException();
         }
     }
 
-    public static void splitInput(String input) {
+    public static void splitInput(String input) throws DukeException {
         String[] slicedInput = input.split(" ", 2);
-        switch(slicedInput[0]) {
-        case "list":
-        case "bye":
-            command = slicedInput[0];
+
+        if (instruction.isOnePartInstruction()) {
             description = "";
-            break;
-        case "done":
-        case "todo":
-        case "deadline":
-        case "event":
-            command = slicedInput[0];
-            description = slicedInput[1];
-            break;
-        default:
-            command = "";
+        } else if (instruction.isTwoPartInstruction()) {
+            try {
+                description = slicedInput[1];
+            } catch (IndexOutOfBoundsException e) {
+                throw new DukeException();
+            }
+        } else {
             description = input;
-            break;
         }
     }
 
     public static void executeCommand() {
-        switch (command) {
-        case "bye":
-            exitMessage();
+        switch (instruction) {
+        case BYE:
+            Print.printExitMessage();
             break;
-        case "list":
-            printList();
+        case LIST:
+            Print.printList(taskManager);
             break;
-        case "done":
-            list.markAsCompleted(Integer.parseInt(description)-1);
+        case DONE:
+            try {
+                taskManager.markAsCompleted(Integer.parseInt(description) - 1);
+            } catch (NullPointerException e) {
+                ErrorMessage.executeCommandNullException(description);
+            } catch (NumberFormatException e) {
+                ErrorMessage.executeCommandNumberFormatException(description);
+            }
             break;
         default:
+            ErrorMessage.unexpectedError();
             System.exit(1);
-        }
-    }
-
-    public static void createTask() {
-        switch (command) {
-        case "todo":
-            task = new ToDo(description);
-            break;
-        case "deadline":
-            task = new Deadline(description);
-            break;
-        case "event":
-            task = new Event(description);
-            break;
-        default:
-            task = new Task(description);
-            break;
-        }
-    }
-
-    public static void printSingleTask(int index) {
-        String typeOfTask = list.getTask(index).getTypeOfTask();
-        String statusIcon =  list.getTask(index).getStatusIcon();
-        String description = list.getTask(index).getFormattedDescription();
-        System.out.println(index + 1 + ". [" + typeOfTask + "][" + statusIcon + "] " + description);
-    }
-
-    public static void printNoOfTasks() {
-        System.out.println("Now you have " + list.getTaskCount() + " tasks in the list.");
-    }
-
-    public static void exitMessage() {
-        System.out.println("Bye. Hope to see you again soon!");
-        System.exit(0);
-    }
-
-    public static void printList() {
-        System.out.println("Here are the tasks in your list");
-        for (int i = 0; i < list.getTaskCount(); i++) {
-            printSingleTask(i);
         }
     }
 }
