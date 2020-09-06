@@ -1,3 +1,9 @@
+import task.Command;
+import task.Task;
+import task.TaskManager;
+import text.ErrorMessage;
+import text.Print;
+
 import java.util.Scanner;
 
 public class Duke {
