@@ -1,3 +1,7 @@
+package text;
+
+import task.TaskManager;
+
 public class ErrorMessage {
     public static void unexpectedError() {
         System.out.println("Something unexpected occurred ... Exiting ... ");

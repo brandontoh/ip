@@ -1,4 +1,4 @@
-import java.util.HashMap;
+package task;
 
 public enum Command {
     LIST (true, false, true, false),
