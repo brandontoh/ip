@@ -5,6 +5,7 @@ import task.TaskManager;
 import text.ErrorMessage;
 import text.Print;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Duke {
@@ -13,18 +14,20 @@ public class Duke {
     private static final TaskManager taskManager = new TaskManager();
 
 
-    public static void main(String[] args) {
-
+    public static void main(String[] args) throws IOException {
+        TaskManager.loadSavedFile();
         Print.printWelcomeMessage();
 
         while (true) {
             String userInput = askForInput();
+
             try {
                 checkTypeOfInstruction(userInput);
             } catch (DukeException e) {
                 ErrorMessage.checkTypeOutOfBoundsException();
                 continue;
             }
+
             try {
                 splitInput(userInput);
             } catch (DukeException e) {
@@ -42,8 +45,10 @@ public class Duke {
             if (instruction == Command.LIST || instruction == Command.DONE) {
                 continue;
             }
+
             Print.printSingleTask(taskManager, TaskManager.getTaskCount()-1);
             Print.printNoOfTasks(taskManager);
+            TaskManager.saveFile();
         }
     }
 
