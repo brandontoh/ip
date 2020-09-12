@@ -1,35 +1,30 @@
 package task;
 
+import java.util.ArrayList;
+
 public class TaskManager {
-    static protected Task[] list;
-    static protected int taskCount;
+    static protected ArrayList<Task> taskList;
     protected Task task;
 
     public TaskManager() {
-        list = new Task[100];
-        taskCount = 0;
-    }
-
-    public Task[] getList() {
-        return list;
+        taskList = new ArrayList<Task>();
     }
 
     public static int getTaskCount() {
-        return taskCount;
+        return taskList.size();
     }
 
     public Task getTask(int index) {
-        return list[index];
+        return taskList.get(index);
     }
 
     public void addToList(Task task) {
-        list[taskCount] = task;
-        taskCount++;
+        taskList.add(task);
         System.out.println("Got it. I've added this task:");
     }
 
     public void markAsCompleted(int index) {
-        Task task = list[index];
+        Task task = taskList.get(index);
         task.markAsCompleted();
     }
 
@@ -49,5 +44,13 @@ public class TaskManager {
             break;
         }
         return task;
+    }
+
+    public void deleteFromList(int index) {
+        if (index <= 0 || index > getTaskCount()) {
+            System.out.println("Invalid task number");
+        } else {
+            taskList.remove(index - 1);
+        }
     }
 }

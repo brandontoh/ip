@@ -39,7 +39,7 @@ public class Duke {
                 taskManager.addToList(task);
             }
 
-            if (instruction == Command.LIST || instruction == Command.DONE) {
+            if (instruction == Command.LIST || instruction == Command.DONE || instruction == Command.DELETE) {
                 continue;
             }
             Print.printSingleTask(taskManager, TaskManager.getTaskCount()-1);
@@ -79,6 +79,9 @@ public class Duke {
         case "event":
             instruction = Command.EVENT;
             break;
+        case "delete":
+            instruction = Command.DELETE;
+            break;
         default:
             throw new DukeException();
         }
@@ -116,6 +119,12 @@ public class Duke {
             } catch (NumberFormatException e) {
                 ErrorMessage.executeCommandNumberFormatException(description);
             }
+            break;
+        case DELETE:
+            System.out.println("Noted. I've removed this task: ");
+            Print.printSingleTask(taskManager, Integer.parseInt(description) - 1);
+            taskManager.deleteFromList(Integer.parseInt(description));
+            Print.printNoOfTasks(taskManager);
             break;
         default:
             ErrorMessage.unexpectedError();

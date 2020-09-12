@@ -7,6 +7,7 @@ public enum Command {
     TODO (false, true,  false, true),
     DEADLINE (false, true,  false, true),
     EVENT (false, true,  false, true),
+    DELETE (true, false, false, true),
     NONE (false, true,  false, false);
 
     private final boolean isCommand;
