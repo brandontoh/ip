@@ -1,6 +1,5 @@
 package task;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.FileWriter;
@@ -52,7 +51,7 @@ public class TaskManager {
         return task;
     }
 
-    public void deleteFromList(int index) throws IOException {
+    public void deleteFromList(int index) {
         if (index <= 0 || index > getTaskCount()) {
             System.out.println("Invalid task number");
         } else {
@@ -61,7 +60,7 @@ public class TaskManager {
     }
 
     public static void saveFile() throws IOException {
-        FileWriter fw = new FileWriter("src/main/java/data/duke.txt");
+        FileWriter fw = new FileWriter("data/duke.txt");
         for (Task t : taskList) {
             fw.write(t.getTypeOfTask() + " | " + t.getStatusIcon() + " | " + t.description + System.lineSeparator());
         }
@@ -69,17 +68,16 @@ public class TaskManager {
     }
 
     public static void loadSavedFile() throws IOException {
-        File f = new File("src/main/java/data/duke.txt");
+        File d = new File("data");
+        d.mkdir();
+        File f = new File("data/duke.txt");
         f.createNewFile();
         Scanner s = new Scanner(f);
         while (s.hasNext()) {
             String[] inputFromFile = s.nextLine().split(" \\| ");
             String taskType = inputFromFile[0];
-            System.out.println(taskType);
             String completionStatus = inputFromFile[1];
-            System.out.println(completionStatus);
             String description = inputFromFile[2];
-            System.out.println(description);
             Task taskToBeAdded;
             switch(taskType) {
             case "T":
