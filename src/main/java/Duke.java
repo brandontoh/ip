@@ -1,3 +1,4 @@
+import exception.DukeException;
 import task.Command;
 import task.Task;
 import task.TaskManager;
@@ -20,7 +21,6 @@ public class Duke {
             String userInput = askForInput();
             try {
                 checkTypeOfInstruction(userInput);
-                splitInput(userInput);
             } catch (DukeException e) {
                 ErrorMessage.checkTypeOutOfBoundsException();
                 continue;
@@ -58,7 +58,7 @@ public class Duke {
     }
 
     public static void checkTypeOfInstruction(String input) throws DukeException {
-        String[] slicedInput = input.split(" ", 2);
+        String[] slicedInput = input.split(" ");
 
         switch(slicedInput[0]) {
         case "list":

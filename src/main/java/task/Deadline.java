@@ -1,7 +1,7 @@
 package task;
 
 public class Deadline extends Task {
-    private static final String DELIMINATOR = "/ by";
+    private static final String DELIMITER = "/ by";
 
     public Deadline(String description) {
         super(description);
@@ -12,11 +12,15 @@ public class Deadline extends Task {
     }
 
     public String getFormattedDescription() {
-        String[] slicedDescription = description.split(DELIMINATOR);
-        String what = slicedDescription[0];
-        String when = slicedDescription[1].trim();
-        String[] slicedWhen = when.split(" ");
-        when = slicedWhen[0] + ": " + slicedWhen[1];
-        return what + "(" + when + ")";
+        String[] slicedDescription = description.split(DELIMITER);
+        try {
+            String what = slicedDescription[0];
+            String when = slicedDescription[1].trim();
+            when = "by: " + when;
+            return what + "(" + when + ")";
+        } catch (IndexOutOfBoundsException e) {
+            //System.out.println("Please include \"" + DELIMITER + "\"");
+            return "INVALID";
+        }
     }
 }

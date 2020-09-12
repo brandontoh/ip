@@ -22,14 +22,6 @@ public class Task {
     }
 
     public String getFormattedDescription(){
-        if (description.contains("/")) {
-            String[] slicedDescription = description.split("/", 2);
-            String what = slicedDescription[0];
-            String when = slicedDescription[1].trim();
-            String[] slicedWhen = when.split(" ", 2);
-            when = slicedWhen[0] + ": " + slicedWhen[1];
-            return what + "(" + when + ")";
-        }
         return this.description;
     }
 

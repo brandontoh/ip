@@ -1,6 +1,10 @@
 package task;
 
+import exception.DukeException;
+
 public class Event extends Task {
+    private static final String DELIMITER = "/ at";
+
     public Event(String description) {
         super(description);
     }
@@ -10,14 +14,15 @@ public class Event extends Task {
     }
 
     public String getFormattedDescription() {
-        if (description.contains("/ at")) {
-            String[] slicedDescription = description.split("/ at", 2);
+        String[] slicedDescription = description.split(DELIMITER);
+        try {
             String what = slicedDescription[0];
             String when = slicedDescription[1].trim();
-            String[] slicedWhen = when.split(" ", 2);
-            when = slicedWhen[0] + ": " + slicedWhen[1];
+            when = "at: " + when;
             return what + "(" + when + ")";
+        } catch (IndexOutOfBoundsException e) {
+            //System.out.println("Please include \"/ at\"");
+            return "INVALID";
         }
-        return this.description;
     }
 }
