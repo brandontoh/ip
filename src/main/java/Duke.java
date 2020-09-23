@@ -1,139 +1,69 @@
 import exception.DukeException;
-import task.Command;
+import task.Instruction;
 import task.Task;
 import task.TaskManager;
 import text.ErrorMessage;
-import text.Print;
+import text.MessagePrinter;
+import text.Storage;
+import userRelated.InputParser;
+import userRelated.Ui;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Duke {
-    private static Command instruction;
+    private static Instruction instruction;
     private static String description;
-    private static final TaskManager taskManager = new TaskManager();
+    private TaskManager taskManager;
+    private Storage storage;
+    private Ui ui;
 
+    public Duke(String filePath) throws IOException {
+        ui = new Ui();
+        storage = new Storage(filePath);
+        try {
+            taskManager = new TaskManager(storage.loadSavedFile());
+        } catch (DukeException e) {
+            ui.showLoadingError();
+            taskManager = new TaskManager();
+        }
+    }
 
-    public static void main(String[] args) throws IOException {
-        TaskManager.loadSavedFile();
-        Print.printWelcomeMessage();
-
+    public void run() throws IOException {
         while (true) {
-            String userInput = askForInput();
+            String userInput = ui.askForInput();
 
             try {
-                checkTypeOfInstruction(userInput);
+                instruction = InputParser.setInstructionEnumType(userInput);
             } catch (DukeException e) {
                 ErrorMessage.checkTypeOutOfBoundsException();
                 continue;
             }
 
             try {
-                splitInput(userInput);
+                description = InputParser.splitInput(userInput, instruction);
             } catch (DukeException e) {
                 ErrorMessage.splitInputOutOfBoundsException();
                 continue;
             }
 
             if (instruction.isCommand()) {
-                executeCommand();
+                taskManager.executeCommand(description);
             } else if (instruction.isTask()) {
-                Task task = taskManager.createTask(instruction, description);
+                Task task = TaskManager.createTask(instruction, description);
                 taskManager.addToList(task);
             }
 
-            if (instruction == Command.LIST || instruction == Command.DONE || instruction == Command.DELETE) {
+            if (instruction == Instruction.LIST || instruction == Instruction.DONE || instruction == Instruction.DELETE) {
                 continue;
             }
 
-            Print.printSingleTask(taskManager, TaskManager.getTaskCount()-1);
-            Print.printNoOfTasks(taskManager);
-            TaskManager.saveFile();
+            MessagePrinter.printSingleTask(taskManager, TaskManager.getTaskCount() - 1);
+            MessagePrinter.printNoOfTasks(taskManager);
+            storage.saveFile(taskManager.getTaskList());
         }
     }
 
-
-    private static String askForInput() {
-        System.out.println("____________________________________________________________");
-        System.out.println("Please enter a task:");
-
-        Scanner input = new Scanner(System.in);
-        String userInput = input.nextLine();
-        return userInput;
-    }
-
-    public static void checkTypeOfInstruction(String input) throws DukeException {
-        String[] slicedInput = input.split(" ");
-
-        switch(slicedInput[0]) {
-        case "list":
-            instruction = Command.LIST;
-            break;
-        case "bye":
-            instruction = Command.BYE;
-            break;
-        case "done":
-            instruction = Command.DONE;
-            break;
-        case "todo":
-            instruction = Command.TODO;
-            break;
-        case "deadline":
-            instruction = Command.DEADLINE;
-            break;
-        case "event":
-            instruction = Command.EVENT;
-            break;
-        case "delete":
-            instruction = Command.DELETE;
-            break;
-        default:
-            throw new DukeException();
-        }
-    }
-
-    public static void splitInput(String input) throws DukeException {
-        String[] slicedInput = input.split(" ", 2);
-
-        if (instruction.isOnePartInstruction()) {
-            description = "";
-        } else if (instruction.isTwoPartInstruction()) {
-            try {
-                description = slicedInput[1];
-            } catch (IndexOutOfBoundsException e) {
-                throw new DukeException();
-            }
-        } else {
-            description = input;
-        }
-    }
-
-    public static void executeCommand() throws IOException {
-        switch (instruction) {
-        case BYE:
-            Print.printExitMessage();
-            break;
-        case LIST:
-            Print.printList(taskManager);
-            break;
-        case DONE:
-            try {
-                taskManager.markAsCompleted(Integer.parseInt(description) - 1);
-            } catch (NullPointerException e) {
-                ErrorMessage.executeCommandNullException(description);
-            } catch (NumberFormatException e) {
-                ErrorMessage.executeCommandNumberFormatException(description);
-            }
-            break;
-        case DELETE:
-            System.out.println("Noted. I've removed this task: ");
-            Print.printSingleTask(taskManager, Integer.parseInt(description) - 1);
-            taskManager.deleteFromList(Integer.parseInt(description));
-            Print.printNoOfTasks(taskManager);
-            break;
-        default:
-            ErrorMessage.unexpectedError();
-            System.exit(1);
-        }
+    public static void main(String[] args) throws IOException {
+        new Duke("data/duke.txt").run();
     }
 }

@@ -1,17 +1,31 @@
 package task;
 
-import java.util.ArrayList;
+import text.ErrorMessage;
+import text.MessagePrinter;
+import text.Storage;
+import userRelated.InputParser;
+
 import java.io.File;
-import java.io.FileWriter;
+import java.util.ArrayList;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class TaskManager {
-    static protected ArrayList<Task> taskList;
-    static protected Task task;
+    private static ArrayList<Task> taskList;
 
-    public TaskManager() {
+    public TaskManager() throws IOException {
+        String filePath = Storage.getFilePath();
+        String[] directoryAndFileNames = filePath.split("/");
+        String fileName = directoryAndFileNames[directoryAndFileNames.length -1];
+        String directoryName = filePath.substring(0, filePath.length() - fileName.length() - 1);
+        File d = new File(directoryName);
+        d.mkdir();
+        File f = new File(fileName);
+        f.createNewFile();
         taskList = new ArrayList<Task>();
+    }
+
+    public TaskManager(ArrayList<Task> taskList) {
+        TaskManager.taskList = taskList;
     }
 
     public static int getTaskCount() {
@@ -22,10 +36,12 @@ public class TaskManager {
         return taskList.get(index);
     }
 
+    public ArrayList<Task> getTaskList() {
+        return taskList;
+    }
     public void addToList(Task task) {
         taskList.add(task);
-
-        System.out.println("Got it. I've added this task:");
+        MessagePrinter.printAddedTaskMessage();
     }
 
     public void markAsCompleted(int index) {
@@ -33,7 +49,8 @@ public class TaskManager {
         task.markAsCompleted();
     }
 
-    public static Task createTask(Command instruction, String description) {
+    public static Task createTask(Instruction instruction, String description) {
+        Task task;
         switch (instruction) {
         case TODO:
             task = new ToDo(description);
@@ -53,47 +70,38 @@ public class TaskManager {
 
     public void deleteFromList(int index) {
         if (index <= 0 || index > getTaskCount()) {
-            System.out.println("Invalid task number");
+            MessagePrinter.printInvalidTaskCount();
         } else {
             taskList.remove(index - 1);
         }
     }
 
-    public static void saveFile() throws IOException {
-        FileWriter fw = new FileWriter("data/duke.txt");
-        for (Task t : taskList) {
-            fw.write(t.getTypeOfTask() + " | " + t.getStatusIcon() + " | " + t.description + System.lineSeparator());
-        }
-        fw.close();
-    }
-
-    public static void loadSavedFile() throws IOException {
-        File d = new File("data");
-        d.mkdir();
-        File f = new File("data/duke.txt");
-        f.createNewFile();
-        Scanner s = new Scanner(f);
-        while (s.hasNext()) {
-            String[] inputFromFile = s.nextLine().split(" \\| ");
-            String taskType = inputFromFile[0];
-            String completionStatus = inputFromFile[1];
-            String description = inputFromFile[2];
-            Task taskToBeAdded;
-            switch(taskType) {
-            case "T":
-                taskToBeAdded = new ToDo(description);
-                break;
-            case "D":
-                taskToBeAdded = new Deadline(description);
-                break;
-            case "E":
-                taskToBeAdded = new Event(description);
-                break;
-            default:
-                taskToBeAdded = new Task(description);
+    public void executeCommand(String description) throws IOException {
+        switch (InputParser.getInstruction()) {
+        case BYE:
+            MessagePrinter.printExitMessage();
+            break;
+        case LIST:
+            MessagePrinter.printList(this);
+            break;
+        case DONE:
+            try {
+                this.markAsCompleted(Integer.parseInt(description) - 1);
+            } catch (NullPointerException e) {
+                ErrorMessage.executeCommandNullException(description);
+            } catch (NumberFormatException e) {
+                ErrorMessage.executeCommandNumberFormatException(description);
             }
-            taskToBeAdded.isDone = completionStatus.equals("\u2713");
-            taskList.add(taskToBeAdded);
+            break;
+        case DELETE:
+            MessagePrinter.printRemovedTaskMessage();
+            MessagePrinter.printSingleTask(this, Integer.parseInt(description) - 1);
+            this.deleteFromList(Integer.parseInt(description));
+            MessagePrinter.printNoOfTasks(this);
+            break;
+        default:
+            ErrorMessage.unexpectedError();
+            System.exit(1);
         }
     }
 }

@@ -1,8 +1,9 @@
 package text;
 
+import task.Task;
 import task.TaskManager;
 
-public class Print {
+public class MessagePrinter {
 
     public static void printWelcomeMessage() {
         String logo = " ____        _        \n"
@@ -37,6 +38,28 @@ public class Print {
         for (int i = 0; i < TaskManager.getTaskCount(); i++) {
             printSingleTask(list, i);
         }
+    }
+
+    public static void printRemovedTaskMessage() {
+        System.out.println("Noted. I've removed this task: ");
+    }
+
+    public static void printInvalidTaskCount() {
+        System.out.println("Invalid task number");
+    }
+
+    public static void printAddedTaskMessage() {
+        System.out.println("Got it. I've added this task:");
+    }
+
+    public static void askToEnterTaskMessage() {
+        System.out.println("____________________________________________________________");
+        System.out.println("Please enter a task:");
+    }
+
+    public static void printMarkTaskAsDoneMessage(Task task) {
+        System.out.println("Nice! I've marked this task as done:");
+        System.out.println("[" + task.getTypeOfTask() + "][" + task.getStatusIcon() + "] " + task.getFormattedDescription());
     }
 }
 

@@ -23,4 +23,8 @@ public class ErrorMessage {
     public static void splitInputOutOfBoundsException() {
         System.out.println("\u2639 OOPS!!! The description of a todo cannot be empty.");
     }
+
+    public static void uiLoadingError() {
+        System.out.println("File cannot be loaded, creating new task list ...");
+    }
 }

@@ -1,6 +1,6 @@
 package task;
 
-public enum Command {
+public enum Instruction {
     LIST (true, false, true, false),
     BYE (true, false, true, false),
     DONE (true, false,  false, true),
@@ -15,7 +15,7 @@ public enum Command {
     private final boolean isOnePartInstruction;
     private final boolean isTwoPartInstruction;
 
-    Command(boolean isCommand, boolean isTask, boolean isOnePartInstruction, boolean isTwoPartInstruction) {
+    Instruction(boolean isCommand, boolean isTask, boolean isOnePartInstruction, boolean isTwoPartInstruction) {
         this.isCommand = isCommand;
         this.isTask = isTask;
         this.isOnePartInstruction = isOnePartInstruction;

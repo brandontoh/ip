@@ -1,7 +1,9 @@
 package task;
 
+import userRelated.InputParser;
+
 public class Event extends Task {
-    private static final String DELIMITER = "/ at";
+    private static final String DELIMITER = "/";
 
     public Event(String description) {
         super(description);
@@ -12,15 +14,6 @@ public class Event extends Task {
     }
 
     public String getFormattedDescription() {
-        String[] slicedDescription = description.split(DELIMITER);
-        try {
-            String what = slicedDescription[0];
-            String when = slicedDescription[1].trim();
-            when = "at: " + when;
-            return what + "(" + when + ")";
-        } catch (IndexOutOfBoundsException e) {
-            //System.out.println("Please include \"/ at\"");
-            return "INVALID";
-        }
+        return InputParser.getFormattedDescription(description, DELIMITER);
     }
 }

@@ -1,5 +1,7 @@
 package task;
 
+import text.MessagePrinter;
+
 public class Task {
     protected String description;
     protected boolean isDone;
@@ -17,6 +19,10 @@ public class Task {
         }
     }
 
+    public void setDone(boolean done) {
+        isDone = done;
+    }
+
     public String getTypeOfTask() {
         return "NIL";
     }
@@ -24,14 +30,12 @@ public class Task {
     public String getFormattedDescription(){
         return this.description;
     }
+    public String getDescription() {
+        return this.description;
+    }
 
     public void markAsCompleted() {
-        if (!isDone) {
-            this.isDone = true;
-            System.out.println("Nice! I've marked this task as done:");
-        } else {
-            System.out.println("What!?!?! I've already marked this task as done:");
-        }
-        System.out.println("[" + getTypeOfTask() + "][" + getStatusIcon() + "] " + getFormattedDescription());
+        this.isDone = true;
+        MessagePrinter.printMarkTaskAsDoneMessage(this);
     }
 }
