@@ -6,6 +6,13 @@ import task.Instruction;
 public class InputParser {
     private static Instruction instruction;
 
+    /**
+     * Returns a formatted description of a task which would be displayed in user console when required
+     *
+     * @param description User description of the task
+     * @param delimiter Delimiter that differentiates main description and date
+     * @return A formatted description for displaying on console
+     */
     public static String getFormattedDescription(String description, String delimiter) {
         String[] slicedDescription = description.split(delimiter);
         String conciseDescription = slicedDescription[0];
@@ -15,6 +22,14 @@ public class InputParser {
         return conciseDescription + " (" + preposition + date + ")";
     }
 
+    /**
+     * Returns description of a task after removing the first part of user input
+     *
+     * @param input Actual user input without any filtering
+     * @param instruction Type of instruction
+     * @return Description of task with irrelevant information removed
+     * @throws DukeException If an instruction with two parts is interpreted as one part
+     */
     public static String splitInput(String input, Instruction instruction) throws DukeException {
         String[] slicedInput = input.split(" ", 2);
         String description;
