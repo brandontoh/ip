@@ -57,6 +57,9 @@ public class InputParser {
         case "delete":
             instruction = Instruction.DELETE;
             break;
+        case "find":
+            instruction = Instruction.FIND;
+            break;
         default:
             throw new DukeException();
         }

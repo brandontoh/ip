@@ -99,6 +99,14 @@ public class TaskManager {
             this.deleteFromList(Integer.parseInt(description));
             MessagePrinter.printNoOfTasks(this);
             break;
+        case FIND:
+            System.out.println("Here are the matching tasks in your list:");
+            for(int i=0; i<taskList.size(); i++) {
+                if (taskList.get(i).getFormattedDescription().contains(description)) {
+                    MessagePrinter.printSingleTask(this, i);
+                }
+            }
+            break;
         default:
             ErrorMessage.unexpectedError();
             System.exit(1);
