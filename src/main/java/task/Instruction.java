@@ -8,7 +8,7 @@ public enum Instruction {
     DEADLINE (false, true,  false, true),
     EVENT (false, true,  false, true),
     DELETE (true, false, false, true),
-    NONE (false, true,  false, false);
+    FIND (true, true,  false, true);
 
     private final boolean isCommand;
     private final boolean isTask;

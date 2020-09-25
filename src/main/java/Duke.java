@@ -53,7 +53,8 @@ public class Duke {
                 taskManager.addToList(task);
             }
 
-            if (instruction == Instruction.LIST || instruction == Instruction.DONE || instruction == Instruction.DELETE) {
+            if (instruction == Instruction.LIST || instruction == Instruction.DONE || instruction == Instruction.DELETE
+                    || instruction == Instruction.FIND) {
                 continue;
             }
 
