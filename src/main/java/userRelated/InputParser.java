@@ -35,7 +35,6 @@ public class InputParser {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd yyyy");
             LocalDate ld = LocalDate.parse(matcher.group(0));
             String formattedDate = dtf.format(ld);
-            System.out.println(formattedDate);
             return conciseDescription + " (" + preposition + formattedDate + ")";
         } catch (DateTimeException d) {
             return conciseDescription + " (" + preposition + "UNKNOWN" + ")";
