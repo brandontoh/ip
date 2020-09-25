@@ -51,26 +51,26 @@ To exit Duke program:
 ## Examples
 
 #### todo
-![](../images/todo.PNG)
+![](images/todo.PNG)
 
 #### deadline
-![](../images/deadline.PNG)
+![](images/deadline.PNG)
 
 #### event
-![](../images/event.PNG)
+![](images/event.PNG)
 
 #### find
-![](../images/find.PNG)
+![](images/find.PNG)
 
 #### list
-![](../images/list.PNG)
+![](images/list.PNG)
 
 #### delete
-![](../images/delete.PNG)
+![](images/delete.PNG)
 
 #### done
-![](../images/done.PNG)
+![](images/done.PNG)
 
 #### bye
-![](../images/bye.PNG)
+![](images/bye.PNG)
 
