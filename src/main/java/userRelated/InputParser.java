@@ -3,6 +3,13 @@ package userRelated;
 import exception.DukeException;
 import task.Instruction;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 public class InputParser {
     private static Instruction instruction;
 
@@ -11,8 +18,21 @@ public class InputParser {
         String conciseDescription = slicedDescription[0];
         String[] prepositionCombinedWithDate = slicedDescription[1].trim().split(" ", 2);
         String preposition = prepositionCombinedWithDate[0];
-        String date = prepositionCombinedWithDate[1];
-        return conciseDescription + " (" + preposition + date + ")";
+        String unformattedDate = prepositionCombinedWithDate[1];
+        Pattern pattern = Pattern.compile("\\d{4}-\\d{2}-\\d{2}");
+        Matcher matcher = pattern.matcher(unformattedDate);
+        if (!matcher.find()) {
+            return conciseDescription + " (" + preposition + unformattedDate + ")";
+        }
+        try {
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd yyyy");
+            LocalDate ld = LocalDate.parse(matcher.group(0));
+            String formattedDate = dtf.format(ld);
+            System.out.println(formattedDate);
+            return conciseDescription + " (" + preposition + formattedDate + ")";
+        } catch (DateTimeException d) {
+            return conciseDescription + " (" + preposition + "UNKNOWN" + ")";
+        }
     }
 
     public static String splitInput(String input, Instruction instruction) throws DukeException {
