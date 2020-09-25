@@ -39,6 +39,7 @@ public class TaskManager {
     public ArrayList<Task> getTaskList() {
         return taskList;
     }
+
     public void addToList(Task task) {
         taskList.add(task);
         MessagePrinter.printAddedTaskMessage();
@@ -49,6 +50,13 @@ public class TaskManager {
         task.markAsCompleted();
     }
 
+    /**
+     * Returns a Task which is upcasted from either Todo, Deadline or Event
+     *
+     * @param instruction Type of instruction (Todo, Deadline or Event)
+     * @param description User description of the task
+     * @return task Task created based on instruction type
+     */
     public static Task createTask(Instruction instruction, String description) {
         Task task;
         switch (instruction) {
@@ -68,6 +76,11 @@ public class TaskManager {
         return task;
     }
 
+    /**
+     * Deletes a task from taskList
+     *
+     * @param index Index of the task to be removed based on taskList
+     */
     public void deleteFromList(int index) {
         if (index <= 0 || index > getTaskCount()) {
             MessagePrinter.printInvalidTaskCount();
@@ -76,7 +89,12 @@ public class TaskManager {
         }
     }
 
-    public void executeCommand(String description) throws IOException {
+    /**
+     * Executes the action according to type of instruction
+     *
+     * @param description User description of the action
+     */
+    public void executeCommand(String description) {
         switch (InputParser.getInstruction()) {
         case BYE:
             MessagePrinter.printExitMessage();

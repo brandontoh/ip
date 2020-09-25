@@ -28,6 +28,11 @@ public class Duke {
         }
     }
 
+    /**
+     * Asks for user input, parse the input, executes the commands then finally saves the tasks into a file
+     *
+     * @throws IOException If the path to save the file cannot be found
+     */
     public void run() throws IOException {
         while (true) {
             String userInput = ui.askForInput();

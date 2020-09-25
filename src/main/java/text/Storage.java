@@ -18,6 +18,12 @@ public class Storage {
         this.filePath = filePath;
     }
 
+    /**
+     * Saves tasks in taskList to a file
+     *
+     * @param taskList List of tasks added by user
+     * @throws IOException If file cannot be found
+     */
     public void saveFile(ArrayList<Task> taskList) throws IOException {
         FileWriter fw = new FileWriter(filePath);
         for (Task t : taskList) {
@@ -26,6 +32,13 @@ public class Storage {
         fw.close();
     }
 
+    /**
+     * Loads the tasks from a file to taskList
+     *
+     * @return List of tasks loaded from the file
+     * @throws IOException If file cannot be found
+     * @throws DukeException If scanner is unable to scan the file provided
+     */
     public ArrayList<Task> loadSavedFile() throws IOException, DukeException {
         ArrayList<Task> taskList = new ArrayList<Task>();
         File f = new File(filePath);
