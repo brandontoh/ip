@@ -12,65 +12,61 @@ Duke automatically saves your current task list and loads it the next time you e
 
 ## Usage
 
-To add a todo task to the list:
+#### To add a todo task to the list:
 
     todo {task to be added}
 
-To add a deadline task to the list:
+#### To add a deadline task to the list:
 
     deadline {task to be added} / by: {YYYY-MM-DD}
 
-To add an event task to the list:
+#### To add an event task to the list:
 
     event {task to be added} / at: {YYYY-MM-DD}
 
-To list out all tasks containing a keyword:
+#### To list out all tasks containing a keyword:
 
     find {keyword}
 
-To list out all tasks currently in the list:
+#### To list out all tasks currently in the list:
 
     list
 
-To delete a task from the list:
-* Use `list` to obtain the index of each task
-
+#### To delete a task from the list:
 
     delete {index of the task to be deleted}
 
-To mark a task in the list as completed:
-* Use `list` to obtain the index of each task
-
+#### To mark a task in the list as completed:
 
     done {index of the task to be mark as completed}
 
-To exit Duke program:
+#### To exit Duke program:
 
     bye
 
 ## Examples
 
-#### todo
+### todo
 ![](images/todo.PNG)
 
-#### deadline
+### deadline
 ![](images/deadline.PNG)
 
-#### event
+### event
 ![](images/event.PNG)
 
-#### find
+### find
 ![](images/find.PNG)
 
-#### list
+### list
 ![](images/list.PNG)
 
-#### delete
+### delete
 ![](images/delete.PNG)
 
-#### done
+### done
 ![](images/done.PNG)
 
-#### bye
+### bye
 ![](images/bye.PNG)
 
