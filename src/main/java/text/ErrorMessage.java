@@ -2,6 +2,9 @@ package text;
 
 import task.TaskManager;
 
+/**
+ * Prints out the error messages that appeared in the project
+ */
 public class ErrorMessage {
     public static void unexpectedError() {
         System.out.println("Something unexpected occurred ... Exiting ... ");

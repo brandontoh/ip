@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+/**
+ * Saves the tasks into a file
+ * Loads the tasks from a file
+ */
 public class Storage {
     private static String filePath;
     public Storage(String filePath) {

@@ -3,6 +3,9 @@ package text;
 import task.Task;
 import task.TaskManager;
 
+/**
+ * Prints out the messages that are used in the project
+ */
 public class MessagePrinter {
 
     public static void printWelcomeMessage() {

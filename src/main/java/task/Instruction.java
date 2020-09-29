@@ -1,5 +1,10 @@
 package task;
 
+/**
+ * Enum class for the different type of instructions
+ * Also categorize the instructions into either command or task
+ * Further categorize the instructions into either one part or two part instructions
+ */
 public enum Instruction {
     LIST (true, false, true, false),
     BYE (true, false, true, false),

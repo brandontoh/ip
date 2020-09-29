@@ -9,6 +9,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.io.IOException;
 
+/**
+ * Manages all the tasks using an ArrayList and modifying it
+ */
 public class TaskManager {
     private static ArrayList<Task> taskList;
 

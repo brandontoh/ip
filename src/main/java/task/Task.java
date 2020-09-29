@@ -2,6 +2,10 @@ package task;
 
 import text.MessagePrinter;
 
+/**
+ * Represents a task
+ * A <code>Task</code> object consist of the description and completion status
+ */
 public class Task {
     protected String description;
     protected boolean isDone;
