@@ -19,7 +19,7 @@ import java.util.Scanner;
 public class Storage {
     private static String filePath;
     public Storage(String filePath) {
-        this.filePath = filePath;
+        Storage.filePath = filePath;
     }
 
     /**
@@ -69,7 +69,7 @@ public class Storage {
             default:
                 taskToBeAdded = new Task(description);
             }
-            if (completionStatus.equals("\u2713")) {
+            if (completionStatus.equals("/")) {
                 taskToBeAdded.setDone(true);
             }
             taskList.add(taskToBeAdded);

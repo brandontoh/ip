@@ -58,6 +58,8 @@ public class Duke {
                 taskManager.addToList(task);
             }
 
+            storage.saveFile(taskManager.getTaskList());
+
             if (instruction == Instruction.LIST || instruction == Instruction.DONE || instruction == Instruction.DELETE
                     || instruction == Instruction.FIND) {
                 continue;
@@ -65,7 +67,6 @@ public class Duke {
 
             MessagePrinter.printSingleTask(taskManager, TaskManager.getTaskCount() - 1);
             MessagePrinter.printNoOfTasks(taskManager);
-            storage.saveFile(taskManager.getTaskList());
         }
     }
 

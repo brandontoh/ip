@@ -17,9 +17,9 @@ public class Task {
 
     public String getStatusIcon() {
         if (isDone) {
-            return "\u2713";
+            return "/";
         } else {
-            return "\u2718";
+            return "X";
         }
     }
 

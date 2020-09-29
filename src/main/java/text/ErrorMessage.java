@@ -28,6 +28,6 @@ public class ErrorMessage {
     }
 
     public static void uiLoadingError() {
-        System.out.println("File cannot be loaded, creating new task list ...");
+        System.out.println("Creating new \"duke.txt\" file ...");
     }
 }

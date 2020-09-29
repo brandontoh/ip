@@ -87,6 +87,7 @@ public class TaskManager {
     public void deleteFromList(int index) {
         if (index <= 0 || index > getTaskCount()) {
             MessagePrinter.printInvalidTaskCount();
+            System.exit(1);
         } else {
             taskList.remove(index - 1);
         }
