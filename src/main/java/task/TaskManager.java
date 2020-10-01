@@ -117,7 +117,7 @@ public class TaskManager {
             }
             break;
         case DELETE:
-            if (Integer.parseInt(description) >= getTaskCount()) {
+            if (Integer.parseInt(description) > getTaskCount()) {
                 throw new DukeException();
             }
             MessagePrinter.printRemovedTaskMessage();
