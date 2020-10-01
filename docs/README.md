@@ -2,13 +2,16 @@
 
 ## Features 
 
-#### Feature 1 
-Duke keeps track of your tasks. 
+### Duke manages your tasks
 
-You can add, delete or complete any tasks in your list.
+You can add, delete, complete or find any tasks in your list.
 
-#### Feature 2
+Duke supports three types of task: Todo, Deadline and Event
+
+### Duke loads and saves your tasks
 Duke automatically saves your current task list and loads it the next time you enter the program.
+
+You would not lose you tasks when you exit the program
 
 ## Start program
 
@@ -38,7 +41,7 @@ If ? appears instead of ☺, exit the program by entering `bye` and follow these
 
 ## Usage
 
-#### To add a todo task to the list: **`todo`**
+### To add a todo task to the list: **`todo`**
 Adds a todo task with description
 
 `todo` followed by `<description>`
@@ -55,7 +58,7 @@ Expected outcome:
     ____________________________________________________________
     Please enter a task:
     
-#### To add a deadline task to the list: **`deadline`**
+### To add a deadline task to the list: **`deadline`**
 Adds a deadline task with description, and a due date in the format
 
 `deadline` followed by `<description>` then delimiter `/ by` and due date `YYYY-MM-DD`
@@ -72,7 +75,7 @@ Expected outcome:
     ____________________________________________________________
     Please enter a task:
 
-#### To add an event task to the list: **`event`**
+### To add an event task to the list: **`event`**
 Adds an event task with description and date of event
 
 `event` followed by `<description>` then delimiter `/ at` and date of event `YYYY-MM-DD`
@@ -89,7 +92,7 @@ Expected outcome:
     ____________________________________________________________
     Please enter a task:
 
-#### To list out all tasks containing a keyword: **`find`**
+### To list out all tasks containing a keyword: **`find`**
 List out all tasks that matches the keyword entered
 
 `find` followed by `<keyword>`
@@ -106,7 +109,7 @@ Expected outcome:
     ____________________________________________________________
     Please enter a task:
 
-#### To list all tasks:**`list`**
+### To list all tasks:**`list`**
 Lists all tasks currently in task
 
 Example usage:
@@ -122,7 +125,7 @@ Expected outcome:
     ____________________________________________________________
     Please enter a task:
 
-#### To delete a task from the list: **`delete`**
+### To delete a task from the list: **`delete`**
 Deletes a task from the list
 
 `delete` followed by `<index>`
@@ -139,7 +142,7 @@ Expected outcome:
     ____________________________________________________________
     Please enter a task:
     
-#### To mark a task in the list as completed: **`done`**
+### To mark a task in the list as completed: **`done`**
 Marks a task as completed by changing the status icon
 
 `done` followed by `<index>`
@@ -155,7 +158,7 @@ Expected outcome:
     ____________________________________________________________
     Please enter a task:
 
-#### To exit Duke program: **`bye`**
+### To exit Duke program: **`bye`**
 Exits the program
 
 Example usage:

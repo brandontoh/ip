@@ -30,4 +30,8 @@ public class ErrorMessage {
     public static void uiLoadingError() {
         System.out.println("Creating new \"duke.txt\" file ...");
     }
+
+    public static void executeCommandIndexOutOfBound() {
+        System.out.println("Invalid index");
+    }
 }

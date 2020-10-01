@@ -14,8 +14,8 @@ public class Duke {
     private static Instruction instruction;
     private static String description;
     private TaskManager taskManager;
-    private Storage storage;
-    private Ui ui;
+    private final Storage storage;
+    private final Ui ui;
 
     public Duke(String filePath) throws IOException {
         ui = new Ui();
@@ -52,7 +52,12 @@ public class Duke {
             }
 
             if (instruction.isCommand()) {
-                taskManager.executeCommand(description);
+                try {
+                    taskManager.executeCommand(description);
+                } catch (DukeException e) {
+                    ErrorMessage.executeCommandIndexOutOfBound();
+                    continue;
+                }
             } else if (instruction.isTask()) {
                 Task task = TaskManager.createTask(instruction, description);
                 taskManager.addToList(task);

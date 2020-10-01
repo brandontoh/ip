@@ -1,5 +1,6 @@
 package task;
 
+import exception.DukeException;
 import text.ErrorMessage;
 import text.MessagePrinter;
 import text.Storage;
@@ -98,7 +99,7 @@ public class TaskManager {
      *
      * @param description User description of the action
      */
-    public void executeCommand(String description) {
+    public void executeCommand(String description) throws DukeException {
         switch (InputParser.getInstruction()) {
         case BYE:
             MessagePrinter.printExitMessage();
@@ -116,6 +117,9 @@ public class TaskManager {
             }
             break;
         case DELETE:
+            if (Integer.parseInt(description) >= getTaskCount()) {
+                throw new DukeException();
+            }
             MessagePrinter.printRemovedTaskMessage();
             MessagePrinter.printSingleTask(this, Integer.parseInt(description) - 1);
             this.deleteFromList(Integer.parseInt(description));
