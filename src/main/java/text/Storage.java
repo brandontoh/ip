@@ -69,7 +69,7 @@ public class Storage {
             default:
                 taskToBeAdded = new Task(description);
             }
-            if (completionStatus.equals("/")) {
+            if (completionStatus.equals("\u2713")) {
                 taskToBeAdded.setDone(true);
             }
             taskList.add(taskToBeAdded);

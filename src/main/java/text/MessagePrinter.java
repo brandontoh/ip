@@ -16,7 +16,7 @@ public class MessagePrinter {
                 + "|____/ \\__,_|_|\\_\\___|\n";
         System.out.println("____________________________________________________________");
         System.out.println(logo);
-        System.out.println("Hello! I'm Duke");
+        System.out.println("Hello! I'm Duke \u263A");
         System.out.println("What can I do for you?");
     }
 

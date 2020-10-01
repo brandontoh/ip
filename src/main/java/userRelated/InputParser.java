@@ -29,15 +29,15 @@ public class InputParser {
         Pattern pattern = Pattern.compile("\\d{4}-\\d{2}-\\d{2}");
         Matcher matcher = pattern.matcher(unformattedDate);
         if (!matcher.find()) {
-            return conciseDescription + " (" + preposition + unformattedDate + ")";
+            return conciseDescription + "(" + preposition + ": " + unformattedDate + ")";
         }
         try {
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd yyyy");
             LocalDate ld = LocalDate.parse(matcher.group(0));
             String formattedDate = dtf.format(ld);
-            return conciseDescription + " (" + preposition + formattedDate + ")";
+            return conciseDescription + "(" + preposition + ": " + formattedDate + ")";
         } catch (DateTimeException d) {
-            return conciseDescription + " (" + preposition + "UNKNOWN" + ")";
+            return conciseDescription + "(" + preposition + ": " + "UNKNOWN" + ")";
         }
     }
 
