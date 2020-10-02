@@ -1,5 +1,6 @@
 package text;
 
+import exception.DukeException;
 import task.Task;
 import task.TaskManager;
 
@@ -25,10 +26,10 @@ public class MessagePrinter {
         System.exit(0);
     }
 
-    public static void printSingleTask(TaskManager list, int index) {
+    public static void printSingleTask(TaskManager list, int index) throws DukeException {
         String typeOfTask = list.getTask(index).getTypeOfTask();
-        String statusIcon =  list.getTask(index).getStatusIcon();
-        String description = list.getTask(index).getFormattedDescription();
+        String statusIcon = list.getTask(index).getStatusIcon();
+        String description = list.getTask(index).getDescription();
         System.out.println(index + 1 + ". [" + typeOfTask + "][" + statusIcon + "] " + description);
     }
 
@@ -36,7 +37,7 @@ public class MessagePrinter {
         System.out.println("Now you have " + TaskManager.getTaskCount() + " tasks in the list.");
     }
 
-    public static void printList(TaskManager list) {
+    public static void printList(TaskManager list) throws DukeException {
         System.out.println("Here are the tasks in your list");
         for (int i = 0; i < TaskManager.getTaskCount(); i++) {
             printSingleTask(list, i);
@@ -60,9 +61,13 @@ public class MessagePrinter {
         System.out.println("Please enter a task:");
     }
 
-    public static void printMarkTaskAsDoneMessage(Task task) {
+    public static void printMarkTaskAsDoneMessage(Task task) throws DukeException {
         System.out.println("Nice! I've marked this task as done:");
-        System.out.println("[" + task.getTypeOfTask() + "][" + task.getStatusIcon() + "] " + task.getFormattedDescription());
+        System.out.println("[" + task.getTypeOfTask() + "][" + task.getStatusIcon() + "] " + task.getDescription());
+    }
+
+    public static void printMatchedTaskMessage() {
+        System.out.println("Here are the matching tasks in your list:");
     }
 }
 

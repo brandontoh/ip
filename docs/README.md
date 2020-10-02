@@ -35,7 +35,7 @@ Expected outcome:
     
 If ? appears instead of ☺, exit the program by entering `bye` and follow these steps:
 1. Change font in terminal to NSimSun
-2. Enter this command in terminal: `ch65001`
+2. Enter this command in terminal: `chcp 65001`
 3. Run the program again with this command: `java -Dfile.encoding=utf-8 -jar ip.jar`
 
 

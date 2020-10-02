@@ -6,7 +6,6 @@ import task.Instruction;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
 
@@ -20,24 +19,22 @@ public class InputParser {
      * @param delimiter Delimiter that differentiates main description and date
      * @return A formatted description for displaying on console
      */
-    public static String getFormattedDescription(String description, String delimiter) {
-        String[] slicedDescription = description.split(delimiter);
-        String conciseDescription = slicedDescription[0];
-        String[] prepositionCombinedWithDate = slicedDescription[1].trim().split(" ", 2);
-        String preposition = prepositionCombinedWithDate[0];
-        String unformattedDate = prepositionCombinedWithDate[1];
-        Pattern pattern = Pattern.compile("\\d{4}-\\d{2}-\\d{2}");
-        Matcher matcher = pattern.matcher(unformattedDate);
-        if (!matcher.find()) {
-            return conciseDescription + "(" + preposition + ": " + unformattedDate + ")";
-        }
+    public static String getFormattedDescription(String description, String delimiter) throws DukeException {
         try {
+            String[] slicedDescription = description.split(delimiter);
+            String conciseDescription = slicedDescription[0];
+            String[] prepositionCombinedWithDate = slicedDescription[1].trim().split(" ", 2);
+            String preposition = prepositionCombinedWithDate[0];
+            String unformattedDate = prepositionCombinedWithDate[1];
+            Pattern pattern = Pattern.compile("\\d{4}-\\d{2}-\\d{2}");
+            //Matcher matcher = pattern.matcher(unformattedDate);
+
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd yyyy");
-            LocalDate ld = LocalDate.parse(matcher.group(0));
+            LocalDate ld = LocalDate.parse(unformattedDate);
             String formattedDate = dtf.format(ld);
             return conciseDescription + "(" + preposition + ": " + formattedDate + ")";
-        } catch (DateTimeException d) {
-            return conciseDescription + "(" + preposition + ": " + "UNKNOWN" + ")";
+        } catch (ArrayIndexOutOfBoundsException | DateTimeException | IllegalStateException a) {
+            throw new DukeException();
         }
     }
 

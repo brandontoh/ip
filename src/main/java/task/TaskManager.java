@@ -8,7 +8,6 @@ import userRelated.InputParser;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.io.IOException;
 
 /**
  * Manages all the tasks using an ArrayList and modifying it
@@ -16,15 +15,13 @@ import java.io.IOException;
 public class TaskManager {
     private static ArrayList<Task> taskList;
 
-    public TaskManager() throws IOException {
+    public TaskManager() {
         String filePath = Storage.getFilePath();
         String[] directoryAndFileNames = filePath.split("/");
         String fileName = directoryAndFileNames[directoryAndFileNames.length -1];
         String directoryName = filePath.substring(0, filePath.length() - fileName.length() - 1);
         File d = new File(directoryName);
         d.mkdir();
-        File f = new File(fileName);
-        f.createNewFile();
         taskList = new ArrayList<Task>();
     }
 
@@ -49,7 +46,7 @@ public class TaskManager {
         MessagePrinter.printAddedTaskMessage();
     }
 
-    public void markAsCompleted(int index) {
+    public void markAsCompleted(int index) throws DukeException {
         Task task = taskList.get(index);
         task.markAsCompleted();
     }
@@ -61,7 +58,7 @@ public class TaskManager {
      * @param description User description of the task
      * @return task Task created based on instruction type
      */
-    public static Task createTask(Instruction instruction, String description) {
+    public static Task createTask(Instruction instruction, String description) throws DukeException{
         Task task;
         switch (instruction) {
         case TODO:
@@ -126,9 +123,9 @@ public class TaskManager {
             MessagePrinter.printNoOfTasks(this);
             break;
         case FIND:
-            System.out.println("Here are the matching tasks in your list:");
+            MessagePrinter.printMatchedTaskMessage();
             for(int i=0; i<taskList.size(); i++) {
-                if (taskList.get(i).getFormattedDescription().contains(description)) {
+                if (taskList.get(i).getDescription().contains(description)) {
                     MessagePrinter.printSingleTask(this, i);
                 }
             }

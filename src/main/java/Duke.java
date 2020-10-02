@@ -33,7 +33,7 @@ public class Duke {
      *
      * @throws IOException If the path to save the file cannot be found
      */
-    public void run() throws IOException {
+    public void run() throws IOException, DukeException {
         while (true) {
             String userInput = ui.askForInput();
 
@@ -59,8 +59,13 @@ public class Duke {
                     continue;
                 }
             } else if (instruction.isTask()) {
-                Task task = TaskManager.createTask(instruction, description);
-                taskManager.addToList(task);
+                try {
+                    Task task = TaskManager.createTask(instruction, description);
+                    taskManager.addToList(task);
+                } catch (DukeException e) {
+                    ErrorMessage.invalidDescription();
+                    continue;
+                }
             }
 
             storage.saveFile(taskManager.getTaskList());
@@ -75,7 +80,7 @@ public class Duke {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, DukeException {
         new Duke("data/duke.txt").run();
     }
 }

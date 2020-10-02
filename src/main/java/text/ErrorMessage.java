@@ -34,4 +34,8 @@ public class ErrorMessage {
     public static void executeCommandIndexOutOfBound() {
         System.out.println("Invalid index");
     }
+
+    public static void invalidDescription() {
+        System.out.println("Invalid description of task or wrong format for date (YYYY-MM-DD)");
+    }
 }

@@ -1,5 +1,6 @@
 package task;
 
+import exception.DukeException;
 import text.MessagePrinter;
 
 /**
@@ -31,15 +32,11 @@ public class Task {
         return "NIL";
     }
 
-    public String getFormattedDescription(){
-        return this.description;
-    }
-
     public String getDescription() {
         return this.description;
     }
 
-    public void markAsCompleted() {
+    public void markAsCompleted() throws DukeException {
         this.isDone = true;
         MessagePrinter.printMarkTaskAsDoneMessage(this);
     }
