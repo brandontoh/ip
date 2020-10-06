@@ -26,8 +26,6 @@ public class InputParser {
             String[] prepositionCombinedWithDate = slicedDescription[1].trim().split(" ", 2);
             String preposition = prepositionCombinedWithDate[0];
             String unformattedDate = prepositionCombinedWithDate[1];
-            Pattern pattern = Pattern.compile("\\d{4}-\\d{2}-\\d{2}");
-            //Matcher matcher = pattern.matcher(unformattedDate);
 
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MMM dd yyyy");
             LocalDate ld = LocalDate.parse(unformattedDate);

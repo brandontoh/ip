@@ -8,7 +8,11 @@ public class Event extends Task {
 
     public Event(String description) throws DukeException {
         super(description);
-        this.description = InputParser.getFormattedDescription(description, DELIMITER);;
+        if (description.contains("(at:") || description.contains("(by:")) {
+            this.description = description;
+        } else {
+            this.description = InputParser.getFormattedDescription(description, DELIMITER);
+        }
     }
 
     public String getTypeOfTask() {
